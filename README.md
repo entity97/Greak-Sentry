@@ -8,7 +8,7 @@ A community bot for the GreakArmo gaming server on [Fluxer](https://fluxer.app),
 - **Rules check.** Members react ✅ to the rules message to get the **Verified** role. Voice channels only let Verified members in, so no reaction means no voice.
 - **Game roles.** Members react in #pick-your-games to get roles for Battlefield 6, The Division 2, Marvel Rivals, Overwatch, and Space Marine 2.
 - **Free games.** Posts new free-to-keep PC games (Steam, Epic, GOG, Ubisoft) with how long they're free. Data comes from GamerPower.
-- **Patch notes.** Posts official update announcements for each game from Steam and pings that game's role.
+- **Patch notes.** Posts official update announcements for each game from Steam into that game's own patch notes channel (like #bf6-patch-notes) and pings that game's role.
 - **Twitch alerts** when GreakArmo goes live.
 - **YouTube alerts** when a new video is uploaded.
 - **Moderation.** Watches #general for aggressive language. It deletes the message, gives a strike, and times people out after too many strikes. Severe stuff gets an instant timeout. Admins and mods are never flagged. Everything is logged in #mod-log.
@@ -93,7 +93,8 @@ Existing members, including you, need to react to the rules too, unless they hav
 
 Open `config.toml`. Every section has comments explaining it. Common changes:
 
-- **Add a game.** Copy one of the `[[games]]` blocks, change the name, role, and emoji, and add its Steam app ID for patch notes. The ID is the number in the game's Steam store link. Then run `!setup` again.
+- **Add a game.** Copy one of the `[[games]]` blocks, change the name, role, and emoji, and add its Steam app ID for patch notes. The ID is the number in the game's Steam store link. Set `patch_channel` and `category`, then run `!setup` again.
+- **Patch notes channels.** Each game's notes go to its `patch_channel`. `!setup` creates that channel inside the game's `category` if a category with that name exists. Emojis and caps are ignored, so "💥 BATTLEFIELD 6" matches "Battlefield 6". Create your categories before running `!setup`. If you'd rather have one shared channel, leave `patch_channel` blank and set `patch_notes` under `[channels]`.
 - **Rename a channel.** Change it under `[channels]` to match your server.
 - **Moderation words.** Add to `warn_terms` or `severe_terms`. Matching ignores caps, stretched letters ("fuuuck"), and swaps like `0` for `o`.
 - **Pings.** Each alert has a `ping` setting. Use `"@everyone"`, `"@here"`, a role name like `"Free Games"`, or `""` for no ping.

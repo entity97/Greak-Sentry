@@ -20,7 +20,7 @@ welcome     = "welcome-lobby"
 rules       = "rules"
 roles       = "pick-your-games"
 free_games  = "free-games"
-patch_notes = "patch-notes"
+patch_notes = ""                   # Optional shared channel for games without their own (see [[games]])
 live        = "live-alerts"        # Twitch go-live posts
 youtube     = "new-videos"         # New YouTube uploads
 mod_log     = "mod-log"            # Private channel where the bot logs moderation actions
@@ -59,6 +59,8 @@ React with ✅ below to agree. This unlocks the voice channels.
 # Game roles
 # Each game gets a role people can pick by reacting in the roles channel.
 # steam_appid is used for patch notes. Leave it out (or set 0) to skip patch notes.
+# patch_channel is where that game's patch notes go. !setup creates it inside
+# the category named in "category" (emojis and caps don't matter when matching).
 # To add a game later: copy a block, change it, then run !setup again.
 # ---------------------------------------------------------------------------
 [[games]]
@@ -66,36 +68,41 @@ name = "Battlefield 6"
 role = "Battlefield 6"
 emoji = "💥"
 steam_appid = 2807960
+patch_channel = "bf6-patch-notes"
+category = "Battlefield 6"
 
 [[games]]
 name = "The Division 2"
 role = "The Division 2"
 emoji = "🟠"
 steam_appid = 2221490
+patch_channel = "div2-patch-notes"
+category = "The Division 2"
 
 [[games]]
 name = "Marvel Rivals"
 role = "Marvel Rivals"
 emoji = "🦸"
 steam_appid = 2767030
+patch_channel = "rivals-patch-notes"
+category = "Marvel Rivals"
 
 [[games]]
 name = "Overwatch"
 role = "Overwatch"
 emoji = "🎯"
 steam_appid = 2357570
+patch_channel = "ow-patch-notes"
+category = "Overwatch"
 
 [[games]]
 name = "Warhammer 40K: Space Marine 2"
 role = "Space Marine 2"
 emoji = "🛡️"
 steam_appid = 2183900
+patch_channel = "sm2-patch-notes"
+category = "Space Marine 2"
 
-[[games]]
-name = "Apex Legends"
-role = "Apex Legends"
-emoji = "🔺"
-steam_appid = 1172470
 
 # ---------------------------------------------------------------------------
 # Free games (from GamerPower, no key needed)
