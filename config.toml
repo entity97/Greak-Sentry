@@ -1,0 +1,170 @@
+# Greak Sentry settings
+# ---------------------
+# Everything you'd want to change lives in this file. Secrets (your bot token,
+# Twitch keys) do NOT go here. They go in the .env file, which never gets uploaded.
+#
+# Channel and role names are matched without the "#" and ignore upper/lower case.
+# Run !setup in your server after changing channels or roles, and the bot will
+# create anything that's missing.
+
+[bot]
+prefix = "!"                       # Commands look like !setup, !freegames
+admin_roles = ["Admin", "Moderator"]   # These roles (and the server owner) can use admin commands
+
+
+# ---------------------------------------------------------------------------
+# Channels the bot posts in. Change the names on the right to match your server.
+# ---------------------------------------------------------------------------
+[channels]
+welcome     = "welcome-lobby"
+rules       = "rules"
+roles       = "pick-your-games"
+free_games  = "free-games"
+patch_notes = "patch-notes"
+live        = "live-alerts"        # Twitch go-live posts
+youtube     = "new-videos"         # New YouTube uploads
+mod_log     = "mod-log"            # Private channel where the bot logs moderation actions
+
+
+# ---------------------------------------------------------------------------
+# Welcome + rules check
+# New members get welcomed, then react to the rules message to get the
+# Verified role. Lock voice channels to that role with !lockvoice.
+# ---------------------------------------------------------------------------
+[welcome]
+message = """
+Welcome to the squad, {user}! 🎮
+
+Head over to {rules} and react with ✅ to accept the rules. That unlocks the voice channels.
+Then grab your game roles in {roles}.
+"""
+
+[verification]
+role  = "Verified"
+emoji = "✅"
+rules_text = """
+**Server Rules**
+
+1. Be respectful. Trash talk the game, not the people.
+2. No hate speech, slurs, harassment, or threats.
+3. No spam or self-promotion without permission.
+4. Keep content in the right channels.
+5. Follow Fluxer's Terms of Service.
+
+React with ✅ below to agree. This unlocks the voice channels.
+"""
+
+
+# ---------------------------------------------------------------------------
+# Game roles
+# Each game gets a role people can pick by reacting in the roles channel.
+# steam_appid is used for patch notes. Leave it out (or set 0) to skip patch notes.
+# To add a game later: copy a block, change it, then run !setup again.
+# ---------------------------------------------------------------------------
+[[games]]
+name = "Battlefield 6"
+role = "Battlefield 6"
+emoji = "💥"
+steam_appid = 2807960
+
+[[games]]
+name = "The Division 2"
+role = "The Division 2"
+emoji = "🟠"
+steam_appid = 2221490
+
+[[games]]
+name = "Marvel Rivals"
+role = "Marvel Rivals"
+emoji = "🦸"
+steam_appid = 2767030
+
+[[games]]
+name = "Overwatch"
+role = "Overwatch"
+emoji = "🎯"
+steam_appid = 2357570
+
+[[games]]
+name = "Warhammer 40K: Space Marine 2"
+role = "Space Marine 2"
+emoji = "🛡️"
+steam_appid = 2183900
+
+
+# ---------------------------------------------------------------------------
+# Free games (from GamerPower, no key needed)
+# platforms: steam, epic-games-store, gog, ubisoft, battlenet, origin, itchio,
+#            pc (all PC stores), ps4, ps5, xbox-one, xbox-series-xs, switch
+# ---------------------------------------------------------------------------
+[free_games]
+enabled = true
+platforms = ["steam", "epic-games-store", "gog", "ubisoft"]
+check_every_minutes = 60
+ping = ""                          # e.g. "@everyone", or a role name like "Free Games"
+
+
+# ---------------------------------------------------------------------------
+# Patch notes (from each game's official Steam announcements, no key needed)
+# ---------------------------------------------------------------------------
+[patch_notes]
+enabled = true
+only_patch_notes = true            # true = skip events/sales news, keep updates and patches
+check_every_minutes = 30
+ping_game_role = true              # Ping the game's role when its patch drops
+
+
+# ---------------------------------------------------------------------------
+# Twitch go-live alerts
+# Works without keys, but adding TWITCH_CLIENT_ID and TWITCH_CLIENT_SECRET
+# to .env makes it faster and more reliable (see README).
+# ---------------------------------------------------------------------------
+[twitch]
+enabled = true
+username = "greakarmo"
+check_every_minutes = 2
+ping = "@everyone"
+message = "{ping} **GreakArmo is live!** Come hang out 👇"
+
+
+# ---------------------------------------------------------------------------
+# YouTube uploads (from the channel's public feed, no key needed)
+# ---------------------------------------------------------------------------
+[youtube]
+enabled = true
+channel_id = "UCc6dBLAvBIzjQ7zXO2TBNgQ"
+check_every_minutes = 10
+ping = "@everyone"
+message = "{ping} **New video just dropped!** 🎬"
+
+
+# ---------------------------------------------------------------------------
+# Moderation for aggressive language
+# Mods, admins, and anyone with an exempt role are never flagged.
+# ---------------------------------------------------------------------------
+[moderation]
+enabled = true
+channels = ["general"]             # Which channels to watch
+exempt_roles = ["Admin", "Moderator"]
+
+# Normal strikes: message deleted + warning. Too many strikes in a day = timeout.
+strikes_before_timeout = 3
+strike_window_hours = 24
+timeout_minutes = 10
+warning_seconds = 10               # How long the warning message stays before it deletes itself
+
+# Severe: message deleted + instant timeout
+severe_timeout_minutes = 60
+
+# Words and phrases. Matching ignores caps, repeated letters (fuuuck),
+# and common swaps like 0 for o or 1 for i. Add your own anytime.
+warn_terms = [
+  "fuck you", "fuck off", "stfu", "shut the fuck up", "shut up bitch",
+  "piece of shit", "dumbass", "retard", "retarded",
+  "trash human", "worthless", "uninstall and die",
+]
+severe_terms = [
+  "kys", "kill yourself", "kill urself", "neck yourself", "hope you die",
+  "i will kill you", "im going to kill you", "go die",
+  # Add slurs here. They get deleted with an instant timeout.
+]

@@ -1,0 +1,8 @@
+# Run on your own PC with Docker:  docker compose up -d
+services:
+  greak-sentry:
+    build: .
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

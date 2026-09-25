@@ -1,0 +1,11 @@
+# Secrets
+.env
+
+# Saved bot data (what's been posted, strikes, panel IDs)
+data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
