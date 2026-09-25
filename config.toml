@@ -108,6 +108,8 @@ name = "Apex Legends"
 role = "Apex Legends"
 emoji = "🔺"
 steam_appid = 1172470
+patch_channel = "apex-patch-notes"
+category = "Apex Legends"
 
 [[games]]
 name = "Destiny 2"
