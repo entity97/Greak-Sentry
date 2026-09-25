@@ -104,6 +104,14 @@ patch_channel = "sm2-patch-notes"
 category = "Space Marine 2"
 
 
+[[games]]
+name = "Destiny 2"
+role = "Destiny 2"
+emoji = "🌌"
+steam_appid = 1085660
+patch_channel = "d2-patch-notes"
+category = "Destiny 2"
+
 # ---------------------------------------------------------------------------
 # Free games (from GamerPower, no key needed)
 # platforms: steam, epic-games-store, gog, ubisoft, battlenet, origin, itchio,
