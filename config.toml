@@ -91,6 +91,11 @@ role = "Space Marine 2"
 emoji = "🛡️"
 steam_appid = 2183900
 
+[[games]]
+name = "Apex Legends"
+role = "Apex Legends"
+emoji = "🔺"
+steam_appid = 1172470
 
 # ---------------------------------------------------------------------------
 # Free games (from GamerPower, no key needed)
