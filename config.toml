@@ -16,14 +16,27 @@ admin_roles = ["Admin", "Moderator"]   # These roles (and the server owner) can 
 # Channels the bot posts in. Change the names on the right to match your server.
 # ---------------------------------------------------------------------------
 [channels]
-welcome     = "welcome-lobby"
-rules       = "rules"
-roles       = "pick-your-games"
-free_games  = "free-games"
+welcome     = "fresh-recruits"
+rules       = "rules-of-engagement"
+roles       = "armoury"
+free_games  = "supply-drops"
 patch_notes = ""                   # Optional shared channel for games without their own (see [[games]])
-live        = "live-alerts"        # Twitch go-live posts
-youtube     = "new-videos"         # New YouTube uploads
-mod_log     = "mod-log"            # Private channel where the bot logs moderation actions
+live        = "live-ops"           # Twitch go-live posts
+youtube     = "mission-footage"    # New YouTube uploads
+mod_log     = "incident-reports"   # Private channel where the bot logs moderation actions
+
+
+# ---------------------------------------------------------------------------
+# Permissions (applied by !setup, or on their own with !lockdown)
+# Category names just need to be part of the real name. Emojis and caps don't matter.
+# ---------------------------------------------------------------------------
+[permissions]
+# Everyone can read and react, but only the bot can post.
+bot_only_categories = ["Deployment Zone", "Command Center"]   # everything inside each category
+bot_only_channels   = ["intel"]            # the #intel in every game. * works here too.
+
+# Only the server owner, admin_roles (see [bot]), and the bot can see these.
+hidden_categories = ["High Command"]
 
 
 # ---------------------------------------------------------------------------
@@ -59,8 +72,9 @@ React with ✅ below to agree. This unlocks the voice channels.
 # Game roles
 # Each game gets a role people can pick by reacting in the roles channel.
 # steam_appid is used for patch notes. Leave it out (or set 0) to skip patch notes.
-# patch_channel is where that game's patch notes go. !setup creates it inside
-# the category named in "category" (emojis and caps don't matter when matching).
+# patch_channel is where that game's patch notes go. The bot looks for it inside
+# the game's category, so every game can use the same name (like "intel").
+# "category" just needs to be part of the category's name; emojis and caps don't matter.
 # To add a game later: copy a block, change it, then run !setup again.
 # ---------------------------------------------------------------------------
 [[games]]
@@ -68,7 +82,7 @@ name = "Battlefield 6"
 role = "Battlefield 6"
 emoji = "💥"
 steam_appid = 2807960
-patch_channel = "bf6-patch-notes"
+patch_channel = "intel"
 category = "Battlefield 6"
 
 [[games]]
@@ -76,7 +90,7 @@ name = "The Division 2"
 role = "The Division 2"
 emoji = "🟠"
 steam_appid = 2221490
-patch_channel = "div2-patch-notes"
+patch_channel = "intel"
 category = "The Division 2"
 
 [[games]]
@@ -84,7 +98,7 @@ name = "Marvel Rivals"
 role = "Marvel Rivals"
 emoji = "🦸"
 steam_appid = 2767030
-patch_channel = "rivals-patch-notes"
+patch_channel = "intel"
 category = "Marvel Rivals"
 
 [[games]]
@@ -92,7 +106,7 @@ name = "Overwatch"
 role = "Overwatch"
 emoji = "🎯"
 steam_appid = 2357570
-patch_channel = "ow-patch-notes"
+patch_channel = "intel"
 category = "Overwatch"
 
 [[games]]
@@ -100,24 +114,25 @@ name = "Warhammer 40K: Space Marine 2"
 role = "Space Marine 2"
 emoji = "🛡️"
 steam_appid = 2183900
-patch_channel = "sm2-patch-notes"
+patch_channel = "intel"
 category = "Space Marine 2"
 
-[[games]]
-name = "Apex Legends"
-role = "Apex Legends"
-emoji = "🔺"
-steam_appid = 1172470
-patch_channel = "apex-patch-notes"
-category = "Apex Legends"
 
 [[games]]
 name = "Destiny 2"
 role = "Destiny 2"
 emoji = "🌌"
 steam_appid = 1085660
-patch_channel = "d2-patch-notes"
+patch_channel = "intel"
 category = "Destiny 2"
+
+[[games]]
+name = "Apex Legends"
+role = "Apex Legends"
+emoji = "🔺"
+steam_appid = 1172470
+patch_channel = "intel"
+category = "Apex Legends"
 
 # ---------------------------------------------------------------------------
 # Free games (from GamerPower, no key needed)
@@ -171,7 +186,9 @@ message = "{ping} **New video just dropped!** 🎬"
 # ---------------------------------------------------------------------------
 [moderation]
 enabled = true
-channels = ["general"]             # Which channels to watch
+# Which channels to watch. * is a wildcard: "rally-*" = every rally channel,
+# and "banter" covers the #banter in every game.
+channels = ["open-comms", "rally-*", "banter", "mess-hall", "recon-photos", "field-radio"]
 exempt_roles = ["Admin", "Moderator"]
 
 # Normal strikes: message deleted + warning. Too many strikes in a day = timeout.

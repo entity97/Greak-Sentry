@@ -4,15 +4,16 @@ A community bot for the GreakArmo gaming server on [Fluxer](https://fluxer.app),
 
 ## What it does
 
-- **Welcomes new members** in #welcome-lobby and points them to the rules.
+- **Welcomes new members** in #fresh-recruits and points them to the rules.
 - **Rules check.** Members react ✅ to the rules message to get the **Verified** role. Voice channels only let Verified members in, so no reaction means no voice.
-- **Game roles.** Members react in #pick-your-games to get roles for Battlefield 6, The Division 2, Marvel Rivals, Overwatch, and Space Marine 2.
+- **Game roles.** Members react in #armoury to get roles for Battlefield 6, The Division 2, Marvel Rivals, Overwatch, and Space Marine 2.
 - **Free games.** Posts new free-to-keep PC games (Steam, Epic, GOG, Ubisoft) with how long they're free. Data comes from GamerPower.
-- **Patch notes.** Posts official update announcements for each game from Steam into that game's own patch notes channel (like #bf6-patch-notes) and pings that game's role.
+- **Patch notes.** Posts official update announcements for each game from Steam into that game's own patch notes channel (each game's #intel) and pings that game's role.
 - **Twitch alerts** when GreakArmo goes live.
 - **YouTube alerts** when a new video is uploaded.
-- **Moderation.** Watches #general for aggressive language. It deletes the message, gives a strike, and times people out after too many strikes. Severe stuff gets an instant timeout. Admins and mods are never flagged. Everything is logged in #mod-log.
-- **Join and leave log** in #mod-log.
+- **Moderation.** Watches #open-comms, every rally and banter channel, #mess-hall, #recon-photos, and #field-radio for aggressive language. It deletes the message, gives a strike, and times people out after too many strikes. Severe stuff gets an instant timeout. Admins and mods are never flagged. Everything is logged in #incident-reports.
+- **Join and leave log** in #incident-reports.
+- **Permissions.** Makes Deployment Zone, Command Center, and every #intel bot-only (people can read and react, only the bot posts), and hides High Command from everyone except admins, mods, and the bot.
 
 Everything you'd want to change is in **`config.toml`**, including channel names, games, messages, the word lists, and how strict moderation is.
 
@@ -66,13 +67,11 @@ In any channel, type:
 
 | Command | What it does |
 |---|---|
-| `!setup` | Creates any missing channels and roles from `config.toml`, then posts the rules message and the game roles message with their reactions. Safe to run again. It only adds what's missing. |
-| `!lockvoice` | Locks every voice channel so only **Verified** members can join. Run it again whenever you add a new voice channel. |
+| `!setup` | Creates any missing channels and roles from `config.toml`, posts the rules message and the game roles message, and applies all permissions (bot-only channels, hidden High Command, voice lock). Safe to run again. |
+| `!lockdown` | Reapplies bot-only channels and hidden categories on their own. |
+| `!lockvoice` | Locks every voice channel so only **Verified** members can join. |
 
-After `!setup`, you may want to:
-
-- Make **#mod-log** private so only mods can see it.
-- Make **#rules** and the alert channels read-only for regular members. They can still react.
+Run `!setup` again whenever you add channels, so new ones get the right permissions.
 
 Existing members, including you, need to react to the rules too, unless they have a role that can already join voice.
 
@@ -82,7 +81,8 @@ Existing members, including you, need to react to the rules too, unless they hav
 |---|---|---|
 | `!sentry` | Everyone | Lists the commands |
 | `!freegames` | Everyone | Shows free games you can claim right now |
-| `!setup` | Admins | Creates missing channels and roles, and posts the panels |
+| `!setup` | Admins | Creates missing channels and roles, posts the panels, applies all permissions |
+| `!lockdown` | Admins | Reapplies bot-only channels and hidden categories |
 | `!lockvoice` | Admins | Restricts voice channels to Verified members |
 | `!checkfeeds` | Admins | Checks free games, patch notes, Twitch, and YouTube right away |
 | `!pardon @user` | Admins | Clears someone's language strikes |
@@ -94,8 +94,9 @@ Existing members, including you, need to react to the rules too, unless they hav
 Open `config.toml`. Every section has comments explaining it. Common changes:
 
 - **Add a game.** Copy one of the `[[games]]` blocks, change the name, role, and emoji, and add its Steam app ID for patch notes. The ID is the number in the game's Steam store link. Set `patch_channel` and `category`, then run `!setup` again.
-- **Patch notes channels.** Each game's notes go to its `patch_channel`. `!setup` creates that channel inside the game's `category` if a category with that name exists. Emojis and caps are ignored, so "💥 BATTLEFIELD 6" matches "Battlefield 6". Create your categories before running `!setup`. If you'd rather have one shared channel, leave `patch_channel` blank and set `patch_notes` under `[channels]`.
+- **Patch notes channels.** Each game's notes go to its `patch_channel`. `!setup` creates that channel inside the game's `category` if a category with that name exists. Emojis and caps are ignored, and the category just needs to contain the name, so "💥 BATTLEFIELD 6 // FRONTLINE" matches "Battlefield 6". Create your categories before running `!setup`. If you'd rather have one shared channel, leave `patch_channel` blank and set `patch_notes` under `[channels]`.
 - **Rename a channel.** Change it under `[channels]` to match your server.
+- **Moderated channels.** List them under `[moderation]` `channels`. Use `*` as a wildcard, so `"rally-*"` covers every rally channel in every game.
 - **Moderation words.** Add to `warn_terms` or `severe_terms`. Matching ignores caps, stretched letters ("fuuuck"), and swaps like `0` for `o`.
 - **Pings.** Each alert has a `ping` setting. Use `"@everyone"`, `"@here"`, a role name like `"Free Games"`, or `""` for no ping.
 
@@ -145,7 +146,7 @@ config.toml          All your settings
 sentry/
   core.py            Connects to Fluxer and finds your channels and roles
   welcome.py         Welcome messages, join and leave log
-  roles.py           Rules check, game roles, !setup, !lockvoice
+  roles.py           Rules check, game roles, !setup, !lockdown, !lockvoice
   moderation.py      Language filter, strikes, timeouts
   feeds.py           Free games, patch notes, Twitch, YouTube
   commands.py        ! commands
